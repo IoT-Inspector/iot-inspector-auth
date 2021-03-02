@@ -21,6 +21,11 @@ Add the following to your `package.json` as dependency:
 }
 ```
 
+You'll need global typescipt, otherwise the auth lib can not be compiled.
+```bash
+npm install -g typescript
+```
+
 The `@types/jws` dev dependency is reguired becuase the lib will be compiled after the install. Once the lib is publised on npm, this can be removed.
 
 ## Usage
