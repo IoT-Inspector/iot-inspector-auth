@@ -9,7 +9,6 @@
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint . --ext ts",
-    "prepare": "pnpm run build",
     "prepublishOnly": "pnpm test && pnpm run lint",
     "preversion": "pnpm run lint",
     "version": "pnpm run format && git add -A src",
