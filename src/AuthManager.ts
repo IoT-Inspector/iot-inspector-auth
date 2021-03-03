@@ -52,9 +52,9 @@ export class AuthManager {
   }
 
   async login(email: string, password: string): Promise<User> {
-    this.idToken = await this.requestIdToken(email, password);
-    await this.verifyIdToken();
-    return this.extractUserFromToken();
+    const idToken = await this.requestIdToken(email, password);
+    await this.setIdToken(idToken);
+    return this.currentUser;
   }
 
   async chooseTenant(tenant: Tenant): Promise<TenantUser> {
@@ -63,7 +63,16 @@ export class AuthManager {
     return tenantUser;
   }
 
-  private async requestIdToken(email: string, password: string): Promise<Token> {
+  async setIdToken(idToken: string): Promise<void> {
+    this.idToken = new Token(idToken);
+    await this.verifyIdToken();
+  }
+
+  get currentUser(): User {
+    return this.extractUserFromToken();
+  }
+
+  private async requestIdToken(email: string, password: string): Promise<string> {
     this.idTokenNonce = nanoid();
     const response = await fetch(this.authUrl, {
       method: 'POST',
@@ -75,15 +84,12 @@ export class AuthManager {
       })
     });
     const { id_token } = await response.json();
-    return new Token(id_token);
+    return id_token;
   }
 
   private async verifyIdToken() {
     if (!this.idToken) {
       throw new TokenVerificationError('Missing id token');
-    }
-    if (!this.idTokenNonce) {
-      throw new TokenVerificationError('Missing nonce value');
     }
 
     const tokenVerifier = TokenVerifier.createIdTokenVerifier(this.config, this.idTokenNonce);

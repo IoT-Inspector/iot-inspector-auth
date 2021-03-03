@@ -12,6 +12,9 @@ class NonceRule extends Rule {
   }
 
   verify(token: Token): boolean {
+    if (!this.nonce) {
+      throw new TokenVerificationError('Missing nonce value');
+    }
     if (!token.payload.nonce) {
       throw new TokenVerificationError('Nonce is missing');
     }

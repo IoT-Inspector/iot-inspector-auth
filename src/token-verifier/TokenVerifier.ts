@@ -21,14 +21,18 @@ class TokenVerifier {
     return this.rules.every((rule) => rule.verify(token));
   }
 
-  static createIdTokenVerifier(config: AuthConfig, nonce: string): TokenVerifier {
-    return new TokenVerifier([
+  static createIdTokenVerifier(config: AuthConfig, nonce?: string): TokenVerifier {
+    const rules: Array<Rule> = [
       new SignatureVerifierRule(ID_TOKEN_PUBLIC_KEY),
       new ExpiryRule(),
       new IssuerRule(config.issuer),
       new AudienceRule(config.audience),
-      new NonceRule(nonce),
-    ]);
+    ];
+    if (nonce) {
+      rules.push(new NonceRule(nonce));
+    }
+
+    return new TokenVerifier(rules);
   }
 
   static createTenantTokenVerifier(config: AuthConfig, nonce: string): TokenVerifier {

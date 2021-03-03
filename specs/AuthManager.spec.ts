@@ -102,7 +102,7 @@ describe('AuthManager', () => {
       }
     });
 
-    test('throws error when audience verification fails', async () => {
+    test('throws error when nonce verification fails', async () => {
       expect.assertions(1);
       tk.freeze(1613810840000);
       mockedNanoid.mockReturnValueOnce('nonce');
@@ -111,6 +111,99 @@ describe('AuthManager', () => {
         await authManager.login('analyst@localhost', '12345678');
       } catch (e) {
         expect(e.message).toEqual('Nonce must be nonce but it was somerandomgibberish');
+      } finally {
+        tk.reset();
+      }
+    });
+  });
+
+  describe('setIdToken', () => {
+    test('returns User when id token is valid', async () => {
+      tk.freeze(1613810840000);
+      const authManager = new AuthManager({...config, audience: 'VSCode'});
+      await authManager.setIdToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhbmFseXN0QGxvY2FsaG9zdCIsImF1ZCI6IlZTQ29kZSIsImlhdCI6MTYxMzczMzQ0MCwiZXhwIjoxNjEzODE5ODQwLCJub25jZSI6InNvbWVyYW5kb21naWJiZXJpc2giLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS90ZW5hbnRzIjpbeyJuYW1lIjoiU2hhcmluZyBpcyBDYXJpbmcgQ29ycC4iLCJpZCI6IjM4NGZkYmRhLTUwMzktNGQ3Ny1iMzM1LTJhNDMyNDQ5YzMyOCJ9LHsibmFtZSI6IlRlbmFudCBPbmUgR21iSCIsImlkIjoiZmRjZmEyMzktODcyNS00ZjRiLTg5YWEtZTViMGJjYzQzYmYxIn1dLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS9pc19zdXBlcnVzZXIiOmZhbHNlfQ.TLeAUNFfIudlnmeWScBr0v6EMmtPfJfq7Wft5ymVD9u5tFd355CNwsKZWO_yX0bgQXIBi-rIPjjyMYuYZ22u8S01-Y8sSEN2h5IDeQt3k6s5hTl7mfSAMX70qAtLXz7b2A1ekwhKK5TLA9uzW7mkvgKQlF9cT5Z4QFqyp-D6xQA8dl3jv0Dq3B0BmLjFD0AI9do6Ci1t20LBhTJ36tq2lO_y6LVi6kW2zu519VclxnL44HnCUrC6t9ZMW9kEb7iRzFGyroi901lsU-MU7obbfjDGHps06NjLwen8H9lO7aqY6J-1zpHMRCApz6Ez-Mqoe2tiTPAEWM0WkXIMVpEgiA');
+      expect(authManager.currentUser).toEqual({
+        email: 'analyst@localhost',
+        tenants: [
+          {
+            name: 'Sharing is Caring Corp.',
+            id: '384fdbda-5039-4d77-b335-2a432449c328'
+          },
+          {
+            name: 'Tenant One GmbH',
+            id: 'fdcfa239-8725-4f4b-89aa-e5b0bcc43bf1'
+          },
+        ],
+          token:  {
+            payload:  {
+              aud: "VSCode",
+              exp: 1613819840,
+              "https://www.iot-inspector.com/is_superuser": false,
+              "https://www.iot-inspector.com/tenants":  [
+                {
+                  id: "384fdbda-5039-4d77-b335-2a432449c328",
+                  name: "Sharing is Caring Corp.",
+                },
+                {
+                  id: "fdcfa239-8725-4f4b-89aa-e5b0bcc43bf1",
+                  name: "Tenant One GmbH",
+                },
+              ],
+              iat: 1613733440,
+              iss: "https://www.iot-inspector.com/",
+              nonce: "somerandomgibberish",
+              sub: "analyst@localhost",
+            },
+            raw: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhbmFseXN0QGxvY2FsaG9zdCIsImF1ZCI6IlZTQ29kZSIsImlhdCI6MTYxMzczMzQ0MCwiZXhwIjoxNjEzODE5ODQwLCJub25jZSI6InNvbWVyYW5kb21naWJiZXJpc2giLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS90ZW5hbnRzIjpbeyJuYW1lIjoiU2hhcmluZyBpcyBDYXJpbmcgQ29ycC4iLCJpZCI6IjM4NGZkYmRhLTUwMzktNGQ3Ny1iMzM1LTJhNDMyNDQ5YzMyOCJ9LHsibmFtZSI6IlRlbmFudCBPbmUgR21iSCIsImlkIjoiZmRjZmEyMzktODcyNS00ZjRiLTg5YWEtZTViMGJjYzQzYmYxIn1dLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS9pc19zdXBlcnVzZXIiOmZhbHNlfQ.TLeAUNFfIudlnmeWScBr0v6EMmtPfJfq7Wft5ymVD9u5tFd355CNwsKZWO_yX0bgQXIBi-rIPjjyMYuYZ22u8S01-Y8sSEN2h5IDeQt3k6s5hTl7mfSAMX70qAtLXz7b2A1ekwhKK5TLA9uzW7mkvgKQlF9cT5Z4QFqyp-D6xQA8dl3jv0Dq3B0BmLjFD0AI9do6Ci1t20LBhTJ36tq2lO_y6LVi6kW2zu519VclxnL44HnCUrC6t9ZMW9kEb7iRzFGyroi901lsU-MU7obbfjDGHps06NjLwen8H9lO7aqY6J-1zpHMRCApz6Ez-Mqoe2tiTPAEWM0WkXIMVpEgiA",
+          },
+      });
+      tk.reset();
+    });
+
+    test('throws error when signature verification fails', async () => {
+      expect.assertions(1);
+      tk.freeze(1613810840000);
+      const authManager = new AuthManager({...config, audience: 'VSCode'});
+      try {
+        await authManager.setIdToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhbmFseXN0QGxvY2FsaG9zdCIsImF1ZCI6IlZTQ29kZSIsImlhdCI6MTYxMzczMzQ0MCwiZXhwIjoxNjEzODE5ODQwLCJub25jZSI6InNvbWVyYW5kb21naWJiZXJpc2giLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS90ZW5hbnRzIjpbeyJuYW1lIjoiU2hhcmluZyBpcyBDYXJpbmcgQ29ycC4iLCJpZCI6IjM4NGZkYmRhLTUwMzktNGQ3Ny1iMzM1LTJhNDMyNDQ5YzMyOCJ9LHsibmFtZSI6IlRlbmFudCBPbmUgR21iSCIsImlkIjoiZmRjZmEyMzktODcyNS00ZjRiLTg5YWEtZTViMGJjYzQzYmYxIn1dLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS9pc19zdXBlcnVzZXIiOmZhbHNlfQ.TLeAUNFfIudlnmeWScBr0v6EMmtPfJfq7Wft5ymVD9u5tFd355CNwsKZWO_yX0bgQXIBi-rIPjjyMYuYZ22u8S01-Y8sSEN2h5IDeQt3k6s5hTl7mfSAMX70qAtLXz7b2A1ekwhKK5TLA9uzW7mkvgKQlF9cT5Z4QFqyp-D6xQA8dl3jv0Dq3B0BmLjFD0AI9do6Ci1t20LBhTJ36tq2lO_y6LVi6kW2zu519VclxnL44HnCUrC6t9ZMW9kEb7iRzFGyroi901lsU-MU7obbfjDGHps06NjLwen8H9lO7aqY6J-1zpHMRCApz6Ez-Mqoe2tiTPAEWM0WkXIMVpEgiArandom');
+      } catch (e) {
+        expect(e.message).toEqual('Invalid token signature');
+      } finally {
+        tk.reset();
+      }
+    });
+
+    test('throws error when token expired', async () => {
+      expect.assertions(1);
+      const authManager = new AuthManager({...config, audience: 'VSCode'});
+      try {
+        await authManager.setIdToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhbmFseXN0QGxvY2FsaG9zdCIsImF1ZCI6IlZTQ29kZSIsImlhdCI6MTYxMzczMzQ0MCwiZXhwIjoxNjEzODE5ODQwLCJub25jZSI6InNvbWVyYW5kb21naWJiZXJpc2giLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS90ZW5hbnRzIjpbeyJuYW1lIjoiU2hhcmluZyBpcyBDYXJpbmcgQ29ycC4iLCJpZCI6IjM4NGZkYmRhLTUwMzktNGQ3Ny1iMzM1LTJhNDMyNDQ5YzMyOCJ9LHsibmFtZSI6IlRlbmFudCBPbmUgR21iSCIsImlkIjoiZmRjZmEyMzktODcyNS00ZjRiLTg5YWEtZTViMGJjYzQzYmYxIn1dLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS9pc19zdXBlcnVzZXIiOmZhbHNlfQ.TLeAUNFfIudlnmeWScBr0v6EMmtPfJfq7Wft5ymVD9u5tFd355CNwsKZWO_yX0bgQXIBi-rIPjjyMYuYZ22u8S01-Y8sSEN2h5IDeQt3k6s5hTl7mfSAMX70qAtLXz7b2A1ekwhKK5TLA9uzW7mkvgKQlF9cT5Z4QFqyp-D6xQA8dl3jv0Dq3B0BmLjFD0AI9do6Ci1t20LBhTJ36tq2lO_y6LVi6kW2zu519VclxnL44HnCUrC6t9ZMW9kEb7iRzFGyroi901lsU-MU7obbfjDGHps06NjLwen8H9lO7aqY6J-1zpHMRCApz6Ez-Mqoe2tiTPAEWM0WkXIMVpEgiA');
+      } catch (e) {
+        expect(e.message).toEqual('Token expired');
+      }
+    });
+
+    test('throws error when issuer verification fails', async () => {
+      expect.assertions(1);
+      tk.freeze(1613810840000);
+      const authManager = new AuthManager({...config, audience: 'VSCode', issuer: 'configured issuer'});
+      try {
+        await authManager.setIdToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhbmFseXN0QGxvY2FsaG9zdCIsImF1ZCI6IlZTQ29kZSIsImlhdCI6MTYxMzczMzQ0MCwiZXhwIjoxNjEzODE5ODQwLCJub25jZSI6InNvbWVyYW5kb21naWJiZXJpc2giLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS90ZW5hbnRzIjpbeyJuYW1lIjoiU2hhcmluZyBpcyBDYXJpbmcgQ29ycC4iLCJpZCI6IjM4NGZkYmRhLTUwMzktNGQ3Ny1iMzM1LTJhNDMyNDQ5YzMyOCJ9LHsibmFtZSI6IlRlbmFudCBPbmUgR21iSCIsImlkIjoiZmRjZmEyMzktODcyNS00ZjRiLTg5YWEtZTViMGJjYzQzYmYxIn1dLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS9pc19zdXBlcnVzZXIiOmZhbHNlfQ.TLeAUNFfIudlnmeWScBr0v6EMmtPfJfq7Wft5ymVD9u5tFd355CNwsKZWO_yX0bgQXIBi-rIPjjyMYuYZ22u8S01-Y8sSEN2h5IDeQt3k6s5hTl7mfSAMX70qAtLXz7b2A1ekwhKK5TLA9uzW7mkvgKQlF9cT5Z4QFqyp-D6xQA8dl3jv0Dq3B0BmLjFD0AI9do6Ci1t20LBhTJ36tq2lO_y6LVi6kW2zu519VclxnL44HnCUrC6t9ZMW9kEb7iRzFGyroi901lsU-MU7obbfjDGHps06NjLwen8H9lO7aqY6J-1zpHMRCApz6Ez-Mqoe2tiTPAEWM0WkXIMVpEgiA');
+      } catch (e) {
+        expect(e.message).toEqual('Issuer must be configured issuer, got https://www.iot-inspector.com/');
+      } finally {
+        tk.reset();
+      }
+    });
+
+    test('throws error when audience verification fails', async () => {
+      expect.assertions(1);
+      tk.freeze(1613810840000);
+      const authManager = new AuthManager(config);
+      try {
+        await authManager.setIdToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhbmFseXN0QGxvY2FsaG9zdCIsImF1ZCI6IlZTQ29kZSIsImlhdCI6MTYxMzczMzQ0MCwiZXhwIjoxNjEzODE5ODQwLCJub25jZSI6InNvbWVyYW5kb21naWJiZXJpc2giLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS90ZW5hbnRzIjpbeyJuYW1lIjoiU2hhcmluZyBpcyBDYXJpbmcgQ29ycC4iLCJpZCI6IjM4NGZkYmRhLTUwMzktNGQ3Ny1iMzM1LTJhNDMyNDQ5YzMyOCJ9LHsibmFtZSI6IlRlbmFudCBPbmUgR21iSCIsImlkIjoiZmRjZmEyMzktODcyNS00ZjRiLTg5YWEtZTViMGJjYzQzYmYxIn1dLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS9pc19zdXBlcnVzZXIiOmZhbHNlfQ.TLeAUNFfIudlnmeWScBr0v6EMmtPfJfq7Wft5ymVD9u5tFd355CNwsKZWO_yX0bgQXIBi-rIPjjyMYuYZ22u8S01-Y8sSEN2h5IDeQt3k6s5hTl7mfSAMX70qAtLXz7b2A1ekwhKK5TLA9uzW7mkvgKQlF9cT5Z4QFqyp-D6xQA8dl3jv0Dq3B0BmLjFD0AI9do6Ci1t20LBhTJ36tq2lO_y6LVi6kW2zu519VclxnL44HnCUrC6t9ZMW9kEb7iRzFGyroi901lsU-MU7obbfjDGHps06NjLwen8H9lO7aqY6J-1zpHMRCApz6Ez-Mqoe2tiTPAEWM0WkXIMVpEgiA');
+      } catch (e) {
+        expect(e.message).toEqual('Audience must be Frontend, got VSCode');
       } finally {
         tk.reset();
       }
