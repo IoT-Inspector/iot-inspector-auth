@@ -12,6 +12,7 @@ export interface Tenant {
 export interface User {
   email: string;
   tenants: Array<Tenant>;
+  token?: Token;
 }
 
 export interface UserGroup {
@@ -95,7 +96,8 @@ export class AuthManager {
     }
     return {
       email: this.idToken.payload.sub,
-      tenants: this.idToken.payload["https://www.iot-inspector.com/tenants"] || []
+      tenants: this.idToken.payload["https://www.iot-inspector.com/tenants"] || [],
+      token: this.idToken,
     }
   }
 
