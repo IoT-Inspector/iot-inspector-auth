@@ -1,2 +1,2 @@
 export { AuthConfig, defaultIotAuthConfig } from './AuthConfig';
-export { AuthManager } from './AuthManager';
+export { AuthManager, User, TenantUser, Tenant } from './AuthManager';
