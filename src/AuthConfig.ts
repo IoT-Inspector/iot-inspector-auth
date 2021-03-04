@@ -8,6 +8,6 @@ export interface AuthConfig {
 export const defaultIotAuthConfig = (authServerUrl: string, clientId: string): AuthConfig => ({
   authServerUrl,
   clientId,
-  audience: 'Frontend',
+  audience: 'IotFrontend',
   issuer: 'https://www.iot-inspector.com/',
 });
