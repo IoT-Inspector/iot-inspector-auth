@@ -1,5 +1,4 @@
 import { AuthConfig } from "../AuthConfig";
-import { ID_TOKEN_PUBLIC_KEY, TENANT_TOKEN_PUBLIC_KEY } from "../publicKeys";
 import AudienceRule from "./rules/AudienceRule";
 import ExpiryRule from "./rules/ExpiryRule";
 import IssuerRule from "./rules/IssuerRule";
@@ -23,7 +22,7 @@ class TokenVerifier {
 
   static createIdTokenVerifier(config: AuthConfig, nonce?: string): TokenVerifier {
     const rules: Array<Rule> = [
-      new SignatureVerifierRule(ID_TOKEN_PUBLIC_KEY),
+      new SignatureVerifierRule(config.publicKeys.idToken),
       new ExpiryRule(),
       new IssuerRule(config.issuer),
       new AudienceRule(config.audience),
@@ -37,7 +36,7 @@ class TokenVerifier {
 
   static createTenantTokenVerifier(config: AuthConfig, nonce: string): TokenVerifier {
     return new TokenVerifier([
-      new SignatureVerifierRule(TENANT_TOKEN_PUBLIC_KEY),
+      new SignatureVerifierRule(config.publicKeys.tenantToken),
       new ExpiryRule(),
       new IssuerRule(config.issuer),
       new AudienceRule(config.audience),
