@@ -1,16 +1,16 @@
 import { ResponseComposition, rest, RestContext } from 'msw'
 
-export const ID_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhbmFseXN0QGxvY2FsaG9zdCIsImF1ZCI6IlZTQ29kZSIsImlhdCI6MTYxMzczMzQ0MCwiZXhwIjoxNjEzODE5ODQwLCJub25jZSI6InNvbWVyYW5kb21naWJiZXJpc2giLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS90ZW5hbnRzIjpbeyJuYW1lIjoiU2hhcmluZyBpcyBDYXJpbmcgQ29ycC4iLCJpZCI6IjM4NGZkYmRhLTUwMzktNGQ3Ny1iMzM1LTJhNDMyNDQ5YzMyOCJ9LHsibmFtZSI6IlRlbmFudCBPbmUgR21iSCIsImlkIjoiZmRjZmEyMzktODcyNS00ZjRiLTg5YWEtZTViMGJjYzQzYmYxIn1dLCJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS9pc19zdXBlcnVzZXIiOmZhbHNlfQ.TLeAUNFfIudlnmeWScBr0v6EMmtPfJfq7Wft5ymVD9u5tFd355CNwsKZWO_yX0bgQXIBi-rIPjjyMYuYZ22u8S01-Y8sSEN2h5IDeQt3k6s5hTl7mfSAMX70qAtLXz7b2A1ekwhKK5TLA9uzW7mkvgKQlF9cT5Z4QFqyp-D6xQA8dl3jv0Dq3B0BmLjFD0AI9do6Ci1t20LBhTJ36tq2lO_y6LVi6kW2zu519VclxnL44HnCUrC6t9ZMW9kEb7iRzFGyroi901lsU-MU7obbfjDGHps06NjLwen8H9lO7aqY6J-1zpHMRCApz6Ez-Mqoe2tiTPAEWM0WkXIMVpEgiA';
-export const TENANT_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhbmFseXN0QGxvY2FsaG9zdCIsImF1ZCI6IndhbGttYW4iLCJpYXQiOjE2MTM3MzM3NzgsImV4cCI6MTcxMzczMzc3Nywibm9uY2UiOiJrdWxkb2ttYXJ2YWxhbWl0aG9neWxlZ3llbiIsImh0dHBzOi8vd3d3LmlvdC1pbnNwZWN0b3IuY29tL3RlbmFudF9pZCI6IjM4NGZkYmRhLTUwMzktNGQ3Ny1iMzM1LTJhNDMyNDQ5YzMyOCJ9.wcZLEqteAT0kH64oPK1MO8SsaxKqKmBvUIISKOcBlBu-r4e1EnmPxXW-FmK2bZesaM6W5lSfx66_qENsbvOhvX5FLGiOkPbQ8AkmDx-AiLRp0DcwP-ACNQ6nz-tvKCJBKI9Ilc9c1FN201r-34q8Pu24Yi5BKZaduUh-SqeMSmX3CscKHpwEIjGUhsG9Nc4D55h4N9-NOU_bZheGsx8lRV60HsSe9AfZmtSrehbV_LSH6ehSCH8QUYR-VBKglD6WjExZv3o9dn1Lug2w6k3BCLTfeR1CQOITdT93wBBue_W9QptiAdWdGQPYDOY0G8SBN71ZAO0-qjKWdkmYdNaJ4w';
+export const ID_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTQ3LCJleHAiOjE2MTUwMTYzNDcsIm5vbmNlIjoieFluTk5Cd0ZIcDllOWZHMWlKcEQzIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50cyI6W3sibmFtZSI6IlNoYXJpbmcgaXMgQ2FyaW5nIENvcnAuIiwiaWQiOiIxYTlhZTU4Ni1kNTNlLTQ4NmQtODcxNS02ODZmODgzYzE3YTYifSx7Im5hbWUiOiJUZW5hbnQgT25lIEdtYkgiLCJpZCI6IjNkMzEzMTI3LWU1ZGYtNDI4ZC04OWQ1LTRiZjAwOWM1ZTQ5NyJ9XSwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vaXNfc3VwZXJ1c2VyIjp0cnVlfQ.b-uuWpcfzmjNWcHo3UCQWGWlZqY202u_aHNnz4C6c8saDa0aSSQ2bajbX4wp2JkhZXW8xYae-oMzVxw0fheKBxKeqnqitjfCk5jANmPJpbIxFeDb0cp9mPGzzPj8uyysEDA2Zlpd_BYhU8WbdJhez-HYD8E9TdlTgVeR_LVCjFhcU3qyNVeLjWNeL5-iSUXKyyzpqL6Dq5DJsFCcW_Ap6rIBbqT9cl0h0rGHqhcATB7WymvpNFHSHKbSoCsb7nfSYPjpw5QeysDKffpPCLsUm59zIj4eUBfD51eq6xqEvFE_zOmD26BcftGYs5K9XSAyx3at0HUdOw4xH07Cd5n2NA';
+export const TENANT_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTU1LCJleHAiOjE2MTQ5NjU5NTUsIm5vbmNlIjoiOWR2dXJVNWZ2eGNMRWR5Ui16aGtwIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50X2lkIjoiMWE5YWU1ODYtZDUzZS00ODZkLTg3MTUtNjg2Zjg4M2MxN2E2In0.dCM8Vbb_99dPbFWLjrzAy4OXA3ZR11-Sg7HPNgQ3sEZtBXQDFR5ap4wHzPKunU5ovBZkB0T_4CoKbJKCN7BHzCEMDxpBdGZ0Ku8iqN5B6IpgJ2cHHabPztuwaDEmz3xZzZvoV4qdUERB9wv14o8MjanxJTTZ59GeyfOAks9HuToJQlyGtzoB5CxMIWTOMEMGNyvOUyhAew1EXQYclwsGcCsZFufiiJRaSeGOU_BMMmvoVVT9weLQXC0L-jf4OVaJVaS9n6YyNy_cdkG6jOqqUJBIhAgOcEaX-CI5TrnnspAuQmXxZxktBRpLFKRw2WhxiZIvmyMPS4JelDkIrstZ3Q';
 
 export const tenantSharingCorp = {
   name: "Sharing is Caring Corp.",
-  id: "384fdbda-5039-4d77-b335-2a432449c328"
+  id: "1a9ae586-d53e-486d-8715-686f883c17a6"
 };
 
 export const tenantOneGmbh = {
   name: "Tenant One GmbH",
-  id: "fdcfa239-8725-4f4b-89aa-e5b0bcc43bf1"
+  id: "3d313127-e5df-428d-89d5-4bf009c5e497"
 };
 
 const errorResponses = (client_id: string, res: ResponseComposition<any>, ctx: RestContext) => {
@@ -65,7 +65,7 @@ export const handlers = [
     const { client_id, email, password } = JSON.parse(req.body);
 
     if (client_id === 'auth') {
-      if (email === 'analyst@localhost' && password === '12345678') {
+      if (email === 'admin@iot-inspector.com' && password === '12345678') {
         return res(
           ctx.status(200),
           ctx.json({
@@ -73,7 +73,7 @@ export const handlers = [
           }),
         );
       }
-      if (email === 'analyst@localhost' && password === 'wrong_signature') {
+      if (email === 'admin@iot-inspector.com' && password === 'wrong_signature') {
         return res(
           ctx.status(200),
           ctx.json({
