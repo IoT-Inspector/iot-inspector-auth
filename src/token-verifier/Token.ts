@@ -1,6 +1,4 @@
-import { JwtPayload } from "jwt-decode";
-
-import decode from 'jwt-decode';
+import decode, { JwtPayload } from "jwt-decode";
 
 export type TokenPayload = JwtPayload & {
   nonce?: string,

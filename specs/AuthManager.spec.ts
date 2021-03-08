@@ -4,10 +4,10 @@ import { nanoid } from 'nanoid';
 import { defaultIotAuthConfig, AuthManager } from '../src';
 
 jest.mock('nanoid');
-const mockedNanoid = mocked(nanoid)
+const mockedNanoid = mocked(nanoid);
 mockedNanoid.mockReturnValue('xYnNNBwFHp9e9fG1iJpD3');
 
-const config = defaultIotAuthConfig('http://localhost', 'auth');
+const config = defaultIotAuthConfig('http://mocked-address.com', 'auth');
 
 describe('AuthManager', () => {
   describe('login', () => {
