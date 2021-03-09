@@ -35,6 +35,7 @@ export enum Role {
 }
 
 export interface TenantUser {
+  tenant: Tenant;
   token: Token;
   userGroups: Array<UserGroup>;
   productGroups: Array<ProductGroup>
@@ -123,6 +124,7 @@ export class AuthManager {
     });
     const { tenant_token, user_groups, product_groups, roles } = await response.json();
     return {
+      tenant,
       token: new Token(tenant_token),
       userGroups: user_groups,
       productGroups: product_groups,

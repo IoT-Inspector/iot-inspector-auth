@@ -224,6 +224,10 @@ describe('AuthManager', () => {
       mockedNanoid.mockReturnValueOnce('9dvurU5fvxcLEdyR-zhkp');
       const tenantUser = await authManager.chooseTenant(user.tenants[0]);
       expect(tenantUser).toEqual({
+        tenant: {
+          id: '1a9ae586-d53e-486d-8715-686f883c17a6',
+          name: 'Sharing is Caring Corp.',
+        },
         token: {
           raw: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTU1LCJleHAiOjE2MTQ5NjU5NTUsIm5vbmNlIjoiOWR2dXJVNWZ2eGNMRWR5Ui16aGtwIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50X2lkIjoiMWE5YWU1ODYtZDUzZS00ODZkLTg3MTUtNjg2Zjg4M2MxN2E2In0.dCM8Vbb_99dPbFWLjrzAy4OXA3ZR11-Sg7HPNgQ3sEZtBXQDFR5ap4wHzPKunU5ovBZkB0T_4CoKbJKCN7BHzCEMDxpBdGZ0Ku8iqN5B6IpgJ2cHHabPztuwaDEmz3xZzZvoV4qdUERB9wv14o8MjanxJTTZ59GeyfOAks9HuToJQlyGtzoB5CxMIWTOMEMGNyvOUyhAew1EXQYclwsGcCsZFufiiJRaSeGOU_BMMmvoVVT9weLQXC0L-jf4OVaJVaS9n6YyNy_cdkG6jOqqUJBIhAgOcEaX-CI5TrnnspAuQmXxZxktBRpLFKRw2WhxiZIvmyMPS4JelDkIrstZ3Q',
           payload: {
