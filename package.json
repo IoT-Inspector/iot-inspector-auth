@@ -12,8 +12,7 @@
     "prepublishOnly": "pnpm test && pnpm run lint",
     "preversion": "pnpm run lint",
     "version": "pnpm run format && git add -A src",
-    "postversion": "git push && git push --tags",
-    "postinstall": "tsc"
+    "postversion": "git push && git push --tags"
   },
   "files": [
     "lib/**/*"
