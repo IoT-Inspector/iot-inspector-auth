@@ -118,6 +118,19 @@ describe('AuthManager', () => {
         tk.reset();
       }
     });
+
+    test('throws error when login fails', async () => {
+      expect.assertions(1);
+      tk.freeze(1615006347000);
+      const authManager = new AuthManager(config);
+      try {
+        await authManager.login('admin@iot-inspector.com', 'wrong_pass');
+      } catch (e) {
+        expect(e.message).toEqual('Invalid token specified');
+      } finally {
+        tk.reset();
+      }
+    });
   });
 
   describe('setIdToken', () => {
