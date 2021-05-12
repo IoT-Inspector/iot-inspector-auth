@@ -13,7 +13,7 @@ Add the following to your `package.json` as dependency:
 ```json
 {
   "dependencies": {
-    "iot-inspector-auth": "git+ssh://git@gitlab.p92.hu/iot-inspector/iot-inspector-auth.git#master"
+    "iot-inspector-auth": "^1.0.0"
   },
   "devDependencies": {
     "@types/jws": "^3.2.3"
