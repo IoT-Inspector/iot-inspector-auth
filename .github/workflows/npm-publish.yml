@@ -17,6 +17,6 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: curl -f https://get.pnpm.io/v6.js | node - add --global pnpm@6
-      - run: pnpm publish
+      - run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
