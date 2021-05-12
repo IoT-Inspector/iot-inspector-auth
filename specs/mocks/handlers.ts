@@ -13,6 +13,7 @@ export const tenantOneGmbh = {
   id: "3d313127-e5df-428d-89d5-4bf009c5e497"
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const errorResponses = (client_id: string, res: ResponseComposition<any>, ctx: RestContext) => {
   if (client_id === 'unprocessable_entity') {
     return res(
