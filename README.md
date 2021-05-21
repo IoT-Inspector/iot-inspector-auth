@@ -22,6 +22,7 @@ Add the following to your `package.json` as dependency:
 ```
 
 You'll need global typescipt, otherwise the auth lib can not be compiled.
+
 ```bash
 npm install -g typescript
 ```
@@ -37,12 +38,20 @@ import {
   defaultIotAuthConfig,
 } from 'iot-inspector-auth';
 
-const config = defaultIotAuthConfig('your auth server url', 'your client id');
+const createAuthManager = async (): Promise<AuthManager> => {
+  const config = await defaultIotAuthConfig(
+    'your auth server url',
+    'your client id',
+  );
 
-const authManager = new AuthManager(config);
+  return new AuthManager(config);
+};
 
-const user = await authManager.login('email', 'password');
-const tenantUser = await authManager.chooseTenant('tenant id');
+const doLogin = async (): Promise<void> => {
+  const authManager = await createAuthManager();
+  const user = await authManager.login('email', 'password');
+  const tenantUser = await authManager.chooseTenant('tenant id');
+};
 ```
 
 Sample user after login:
