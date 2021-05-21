@@ -356,7 +356,6 @@ describe('AuthManager', () => {
     });
 
     test('throws error when nonce verification fails', async () => {
-      console.log('config', config);
       expect.assertions(1);
       tk.freeze(1614006347000);
       const authManager = new AuthManager(config);
