@@ -1,7 +1,9 @@
 import { AuthConfig } from "./AuthConfig";
-import fetch from 'cross-fetch';
-import { nanoid } from 'nanoid';
-import TokenVerifier, { TokenVerificationError } from "./token-verifier/TokenVerifier";
+import fetch from "cross-fetch";
+import { nanoid } from "nanoid";
+import TokenVerifier, {
+  TokenVerificationError,
+} from "./token-verifier/TokenVerifier";
 import Token from "./token-verifier/Token";
 
 export interface Tenant {
@@ -26,19 +28,19 @@ export interface ProductGroup {
 }
 
 export enum Role {
-  admin = 'admin',
-  uploader = 'uploader',
-  editor = 'editor',
-  viewer = 'viewer',
-  reporter = 'reporter',
-  analyst = 'analyst'
+  admin = "admin",
+  uploader = "uploader",
+  editor = "editor",
+  viewer = "viewer",
+  reporter = "reporter",
+  analyst = "analyst",
 }
 
 export interface TenantUser {
   tenant: Tenant;
   token: Token;
   userGroups: Array<UserGroup>;
-  productGroups: Array<ProductGroup>
+  productGroups: Array<ProductGroup>;
   roles: Array<Role>;
 }
 
@@ -73,16 +75,19 @@ export class AuthManager {
     return this.extractUserFromToken();
   }
 
-  private async requestIdToken(email: string, password: string): Promise<string> {
+  private async requestIdToken(
+    email: string,
+    password: string
+  ): Promise<string> {
     this.idTokenNonce = nanoid();
     const response = await fetch(this.authUrl, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
         client_id: this.config.clientId,
         nonce: this.idTokenNonce,
         email,
-        password
-      })
+        password,
+      }),
     });
     const { id_token } = await response.json();
     return id_token;
@@ -90,31 +95,35 @@ export class AuthManager {
 
   private async verifyIdToken() {
     if (!this.idToken) {
-      throw new TokenVerificationError('Missing id token');
+      throw new TokenVerificationError("Missing id token");
     }
 
-    const tokenVerifier = TokenVerifier.createIdTokenVerifier(this.config, this.idTokenNonce);
+    const tokenVerifier = TokenVerifier.createIdTokenVerifier(
+      this.config,
+      this.idTokenNonce
+    );
     return tokenVerifier.verify(this.idToken);
   }
 
   private extractUserFromToken(): User {
     if (!this.idToken?.payload.sub) {
-      throw new Error('Missing subject');
+      throw new Error("Missing subject");
     }
     return {
       email: this.idToken.payload.sub,
-      tenants: this.idToken.payload["https://www.iot-inspector.com/tenants"] || [],
+      tenants:
+        this.idToken.payload["https://www.iot-inspector.com/tenants"] || [],
       token: this.idToken,
-    }
+    };
   }
 
   private async requestTenantToken(tenant: Tenant): Promise<TenantUser> {
     if (!this.idToken) {
-      throw new Error('Missing id token');
+      throw new Error("Missing id token");
     }
     this.tenantTokenNonce = nanoid();
     const response = await fetch(this.tokenUrl, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
         client_id: this.config.clientId,
         nonce: this.tenantTokenNonce,
@@ -122,22 +131,30 @@ export class AuthManager {
         tenant_id: tenant.id,
       }),
     });
-    const { tenant_token, user_groups, product_groups, roles } = await response.json();
+    const {
+      tenant_token,
+      user_groups,
+      product_groups,
+      roles,
+    } = await response.json();
     return {
       tenant,
       token: new Token(tenant_token),
       userGroups: user_groups,
       productGroups: product_groups,
-      roles: roles
+      roles: roles,
     };
   }
 
   private async verifyTenantToken(token: Token) {
     if (!this.tenantTokenNonce) {
-      throw new TokenVerificationError('Missing nonce value');
+      throw new TokenVerificationError("Missing nonce value");
     }
 
-    const tokenVerifier = TokenVerifier.createTenantTokenVerifier(this.config, this.tenantTokenNonce);
+    const tokenVerifier = TokenVerifier.createTenantTokenVerifier(
+      this.config,
+      this.tenantTokenNonce
+    );
     return tokenVerifier.verify(token);
   }
 

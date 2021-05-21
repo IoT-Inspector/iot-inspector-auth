@@ -20,7 +20,10 @@ class TokenVerifier {
     return this.rules.every((rule) => rule.verify(token));
   }
 
-  static createIdTokenVerifier(config: AuthConfig, nonce?: string): TokenVerifier {
+  static createIdTokenVerifier(
+    config: AuthConfig,
+    nonce?: string
+  ): TokenVerifier {
     const rules: Array<Rule> = [
       new SignatureVerifierRule(config.publicKeys.idToken),
       new ExpiryRule(),
@@ -34,14 +37,17 @@ class TokenVerifier {
     return new TokenVerifier(rules);
   }
 
-  static createTenantTokenVerifier(config: AuthConfig, nonce: string): TokenVerifier {
+  static createTenantTokenVerifier(
+    config: AuthConfig,
+    nonce: string
+  ): TokenVerifier {
     return new TokenVerifier([
       new SignatureVerifierRule(config.publicKeys.tenantToken),
       new ExpiryRule(),
       new IssuerRule(config.issuer),
       new AudienceRule(config.audience),
       new NonceRule(nonce),
-    ])
+    ]);
   }
 }
 

@@ -1,11 +1,11 @@
 import decode, { JwtPayload } from "jwt-decode";
 
 export type TokenPayload = JwtPayload & {
-  nonce?: string,
-  'https://www.iot-inspector.com/tenants'?: Array<{
-    id: string,
-    name: string,
-  }>
+  nonce?: string;
+  "https://www.iot-inspector.com/tenants"?: Array<{
+    id: string;
+    name: string;
+  }>;
 };
 
 class Token {
