@@ -12,10 +12,12 @@ class AudienceRule extends Rule {
 
   verify(token: Token): boolean {
     if (!token.payload.aud) {
-      throw new TokenVerificationError('Audience is missing');
+      throw new TokenVerificationError("Audience is missing");
     }
     if (token.payload.aud !== this.audience) {
-      throw new TokenVerificationError(`Audience must be ${this.audience}, got ${token.payload.aud}`);
+      throw new TokenVerificationError(
+        `Audience must be ${this.audience}, got ${token.payload.aud}`
+      );
     }
     return true;
   }

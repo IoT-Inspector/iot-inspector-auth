@@ -1,15 +1,20 @@
 import tk from 'timekeeper';
 import { mocked } from 'ts-jest/utils'
 import { nanoid } from 'nanoid';
-import { defaultIotAuthConfig, AuthManager } from '../src';
+import { defaultIotAuthConfig, AuthManager, AuthConfig } from '../src';
 
 jest.mock('nanoid');
 const mockedNanoid = mocked(nanoid);
 mockedNanoid.mockReturnValue('xYnNNBwFHp9e9fG1iJpD3');
 
-const config = defaultIotAuthConfig('http://mocked-address.com', 'auth');
+let config: AuthConfig;
 
 describe('AuthManager', () => {
+
+  beforeAll(async () => {
+    config = await defaultIotAuthConfig('http://mocked-address.com', 'auth');
+  });
+
   describe('login', () => {
     test('returns User when successfully logged in', async () => {
       tk.freeze(1615006347000);

@@ -1,4 +1,4 @@
-import { ID_TOKEN_PUBLIC_KEY, TENANT_TOKEN_PUBLIC_KEY } from "./publicKeys";
+import fetch from "cross-fetch";
 
 export interface AuthConfig {
   authServerUrl: string;
@@ -8,16 +8,28 @@ export interface AuthConfig {
   publicKeys: {
     idToken: string;
     tenantToken: string;
-  }
+  };
 }
 
-export const defaultIotAuthConfig = (authServerUrl: string, clientId: string): AuthConfig => ({
-  authServerUrl,
-  clientId,
-  audience: 'IotFrontend',
-  issuer: 'https://www.iot-inspector.com/',
-  publicKeys: {
-    idToken: ID_TOKEN_PUBLIC_KEY,
-    tenantToken: TENANT_TOKEN_PUBLIC_KEY,
-  }
-});
+export const defaultIotAuthConfig = async (
+  authServerUrl: string,
+  clientId: string
+): Promise<AuthConfig> => {
+  const idTokenKeyResponse = await fetch(
+    `${authServerUrl}/id-token-public-key.pem`
+  );
+  const tenantTokenKeyResponse = await fetch(
+    `${authServerUrl}/tenant-token-public-key.pem`
+  );
+
+  return {
+    authServerUrl,
+    clientId,
+    audience: "IotFrontend",
+    issuer: "https://www.iot-inspector.com/",
+    publicKeys: {
+      idToken: await idTokenKeyResponse.text(),
+      tenantToken: await tenantTokenKeyResponse.text(),
+    },
+  };
+};
