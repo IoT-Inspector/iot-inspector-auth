@@ -64,7 +64,7 @@ const errorResponses = (client_id: string, res: ResponseComposition<any>, ctx: R
 
 export const handlers = [
   rest.post<string>('http://mocked-address.com/authorize', (req, res, ctx) => {
-    const { client_id, email, password } = JSON.parse(req.body);
+  const { client_id, email, password } = req.body as never;
 
     if (client_id === 'auth') {
       if (email === 'admin@iot-inspector.com' && password === '12345678') {
@@ -98,7 +98,7 @@ export const handlers = [
     return errorResponses(client_id, res, ctx);
   }),
   rest.post<string>('http://mocked-address.com/token', (req, res, ctx) => {
-    const { client_id, id_token, tenant_id } = JSON.parse(req.body);
+    const { client_id, id_token, tenant_id } = req.body as never;
     if (client_id == 'auth') {
       if (id_token === ID_TOKEN && tenant_id === tenantSharingCorp.id) {
         return res(

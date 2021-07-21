@@ -82,6 +82,9 @@ export class AuthManager {
     this.idTokenNonce = nanoid();
     const response = await fetch(this.authUrl, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         client_id: this.config.clientId,
         nonce: this.idTokenNonce,
@@ -124,6 +127,9 @@ export class AuthManager {
     this.tenantTokenNonce = nanoid();
     const response = await fetch(this.tokenUrl, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         client_id: this.config.clientId,
         nonce: this.tenantTokenNonce,
