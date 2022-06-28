@@ -1,8 +1,8 @@
 import { ResponseComposition, rest, RestContext } from 'msw'
 import { ID_TOKEN_PUBLIC_KEY, TENANT_TOKEN_PUBLIC_KEY } from './publicKeys';
 
-export const ID_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTQ3LCJleHAiOjE2MTUwMTYzNDcsIm5vbmNlIjoieFluTk5Cd0ZIcDllOWZHMWlKcEQzIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50cyI6W3sibmFtZSI6IlNoYXJpbmcgaXMgQ2FyaW5nIENvcnAuIiwiaWQiOiIxYTlhZTU4Ni1kNTNlLTQ4NmQtODcxNS02ODZmODgzYzE3YTYifSx7Im5hbWUiOiJUZW5hbnQgT25lIEdtYkgiLCJpZCI6IjNkMzEzMTI3LWU1ZGYtNDI4ZC04OWQ1LTRiZjAwOWM1ZTQ5NyJ9XSwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vaXNfc3VwZXJ1c2VyIjp0cnVlfQ.b-uuWpcfzmjNWcHo3UCQWGWlZqY202u_aHNnz4C6c8saDa0aSSQ2bajbX4wp2JkhZXW8xYae-oMzVxw0fheKBxKeqnqitjfCk5jANmPJpbIxFeDb0cp9mPGzzPj8uyysEDA2Zlpd_BYhU8WbdJhez-HYD8E9TdlTgVeR_LVCjFhcU3qyNVeLjWNeL5-iSUXKyyzpqL6Dq5DJsFCcW_Ap6rIBbqT9cl0h0rGHqhcATB7WymvpNFHSHKbSoCsb7nfSYPjpw5QeysDKffpPCLsUm59zIj4eUBfD51eq6xqEvFE_zOmD26BcftGYs5K9XSAyx3at0HUdOw4xH07Cd5n2NA';
-export const TENANT_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTU1LCJleHAiOjE2MTQ5NjU5NTUsIm5vbmNlIjoiOWR2dXJVNWZ2eGNMRWR5Ui16aGtwIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50X2lkIjoiMWE5YWU1ODYtZDUzZS00ODZkLTg3MTUtNjg2Zjg4M2MxN2E2In0.dCM8Vbb_99dPbFWLjrzAy4OXA3ZR11-Sg7HPNgQ3sEZtBXQDFR5ap4wHzPKunU5ovBZkB0T_4CoKbJKCN7BHzCEMDxpBdGZ0Ku8iqN5B6IpgJ2cHHabPztuwaDEmz3xZzZvoV4qdUERB9wv14o8MjanxJTTZ59GeyfOAks9HuToJQlyGtzoB5CxMIWTOMEMGNyvOUyhAew1EXQYclwsGcCsZFufiiJRaSeGOU_BMMmvoVVT9weLQXC0L-jf4OVaJVaS9n6YyNy_cdkG6jOqqUJBIhAgOcEaX-CI5TrnnspAuQmXxZxktBRpLFKRw2WhxiZIvmyMPS4JelDkIrstZ3Q';
+export const ID_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5vbmVrZXkuY29tLyIsInN1YiI6ImFkbWluQG9uZWtleS5jb20iLCJhdWQiOiJPbmVrZXlGcm9udGVuZCIsImlhdCI6MTYxNDkyOTk0NywiZXhwIjoxNjE1MDE2MzQ3LCJub25jZSI6InhZbk5OQndGSHA5ZTlmRzFpSnBEMyIsImh0dHBzOi8vd3d3Lm9uZWtleS5jb20vdGVuYW50cyI6W3sibmFtZSI6IlNoYXJpbmcgaXMgQ2FyaW5nIENvcnAuIiwiaWQiOiIxYTlhZTU4Ni1kNTNlLTQ4NmQtODcxNS02ODZmODgzYzE3YTYifSx7Im5hbWUiOiJUZW5hbnQgT25lIEdtYkgiLCJpZCI6IjNkMzEzMTI3LWU1ZGYtNDI4ZC04OWQ1LTRiZjAwOWM1ZTQ5NyJ9XSwiaHR0cHM6Ly93d3cub25la2V5LmNvbS9pc19zdXBlcnVzZXIiOnRydWV9.K0TY3Nz_Y-bX2WGZxTaiogX0JNQZ_LmHLrintxE3V_Dx1fso2DQP9qrJ2oAMW-TUqgxDWMtcjDXI5WkBcprycHlRuGf7n220ubghbYCjBGJf64r0bw9vs8zoLcz6CV8aJtM-QcEcQ4Q_ZNiBAmu8ibS49RywD0lmm1Zg2w8c1yenMSEMKFPLmiXBSm8aapJ9CHH5H8tCXlCHlQ5x9FJbUoJYyGYXl_SsezGQSk9DXlosK3jYUPB1oOVuNtH_vupm3hGovuPK1HROP-tiN9Mwjk4feguMRGclMQbmsXOmqtNAssX_lzejbJmYBHZlYb11ChB97vT1mHizh4FPu_slNw';
+export const TENANT_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5vbmVrZXkuY29tLyIsInN1YiI6ImFkbWluQG9uZWtleS5jb20iLCJhdWQiOiJPbmVrZXlGcm9udGVuZCIsImlhdCI6MTYxNDkyOTk1NSwiZXhwIjoxNjE0OTY1OTU1LCJub25jZSI6IjlkdnVyVTVmdnhjTEVkeVItemhrcCIsImh0dHBzOi8vd3d3Lm9uZWtleS5jb20vdGVuYW50X2lkIjoiMWE5YWU1ODYtZDUzZS00ODZkLTg3MTUtNjg2Zjg4M2MxN2E2In0.EEdY6IGaGBlAMiQrsSWPobAh4zxiY4gAOEiNW1mH9yh2zQyM-uxvzVqvaE05Up0vzJ0HGLFEC8T320erKpicsqU9CKl2keH6V2U5wl_WPL-dwLRFqDJKIjaA4mf18Pwee_3W4MdmjRAqNZCC-ZEWjMyf3a-yVXphuf2Ux2kFML2mZ8JcrU0cL3VUzlGgYDkDGQf6jRDZ4ErtxV4fyQGmx-wNH_WJZATWGaL5U2SRRbgIHKkNEyeqmDkO7SfhpZ1-XJcnvlz3PrfTGa7pHPKXDuLWMTnsmDWUdKQkJ9kRxF7c0LWRQYCz-MRFRz-dZ3V-U0_4aMLvl-0LT5Ro-mUu9w';
 
 export const tenantSharingCorp = {
   name: "Sharing is Caring Corp.",
@@ -67,7 +67,7 @@ export const handlers = [
   const { client_id, email, password } = req.body as never;
 
     if (client_id === 'auth') {
-      if (email === 'admin@iot-inspector.com' && password === '12345678') {
+      if (email === 'admin@onekey.com' && password === '12345678') {
         return res(
           ctx.status(200),
           ctx.json({
@@ -75,7 +75,7 @@ export const handlers = [
           }),
         );
       }
-      if (email === 'admin@iot-inspector.com' && password === 'wrong_signature') {
+      if (email === 'admin@onekey.com' && password === 'wrong_signature') {
         return res(
           ctx.status(200),
           ctx.json({
