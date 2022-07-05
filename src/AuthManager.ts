@@ -115,7 +115,7 @@ export class AuthManager {
     return {
       email: this.idToken.payload.sub,
       tenants:
-        this.idToken.payload["https://www.iot-inspector.com/tenants"] || [],
+        this.idToken.payload["https://www.onekey.com/tenants"] || [],
       token: this.idToken,
     };
   }

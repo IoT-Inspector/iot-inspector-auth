@@ -67,7 +67,7 @@ export const handlers = [
   const { client_id, email, password } = req.body as never;
 
     if (client_id === 'auth') {
-      if (email === 'admin@iot-inspector.com' && password === '12345678') {
+      if (email === 'admin@onekey.com' && password === '12345678') {
         return res(
           ctx.status(200),
           ctx.json({
@@ -75,7 +75,7 @@ export const handlers = [
           }),
         );
       }
-      if (email === 'admin@iot-inspector.com' && password === 'wrong_signature') {
+      if (email === 'admin@onekey.com' && password === 'wrong_signature') {
         return res(
           ctx.status(200),
           ctx.json({
