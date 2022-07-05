@@ -25,8 +25,8 @@ export const defaultIotAuthConfig = async (
   return {
     authServerUrl,
     clientId,
-    audience: "IotFrontend",
-    issuer: "https://www.iot-inspector.com/",
+    audience: "OnekeyFrontend",
+    issuer: "https://www.onekey.com/",
     publicKeys: {
       idToken: await idTokenKeyResponse.text(),
       tenantToken: await tenantTokenKeyResponse.text(),
