@@ -1,7 +1,7 @@
 {
-  "name": "iot-inspector-auth",
   "version": "1.0.3",
-  "description": "Auth SDK for IOT inspector",
+  "name": "onekey-auth",
+  "description": "Auth SDK for Onekey",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
