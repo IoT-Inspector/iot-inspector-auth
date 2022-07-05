@@ -1,6 +1,6 @@
 {
-  "version": "1.0.3",
   "name": "onekey-auth",
+  "version": "2.0.0",
   "description": "Auth SDK for Onekey",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
