@@ -13,7 +13,7 @@ Add the following to your `package.json` as dependency:
 ```json
 {
   "dependencies": {
-    "iot-inspector-auth": "^1.0.0"
+    "onekey-auth": "^1.0.0"
   },
   "devDependencies": {
     "@types/jws": "^3.2.3"
@@ -36,7 +36,7 @@ import {
   AuthConfig,
   AuthManager,
   defaultIotAuthConfig,
-} from 'iot-inspector-auth';
+} from 'onekey-auth';
 
 const createAuthManager = async (): Promise<AuthManager> => {
   const config = await defaultIotAuthConfig(
@@ -79,13 +79,13 @@ Sample tenant user:
   token: {
     raw: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhbmFseXN0QGxvY2FsaG9zdCIsImF1ZCI6IndhbGttYW4iLCJpYXQiOjE2MTM3MzM3NzgsImV4cCI6MTcxMzczMzc3Nywibm9uY2UiOiJrdWxkb2ttYXJ2YWxhbWl0aG9neWxlZ3llbiIsImh0dHBzOi8vd3d3LmlvdC1pbnNwZWN0b3IuY29tL3RlbmFudF9pZCI6IjM4NGZkYmRhLTUwMzktNGQ3Ny1iMzM1LTJhNDMyNDQ5YzMyOCJ9.wcZLEqteAT0kH64oPK1MO8SsaxKqKmBvUIISKOcBlBu-r4e1EnmPxXW-FmK2bZesaM6W5lSfx66_qENsbvOhvX5FLGiOkPbQ8AkmDx-AiLRp0DcwP-ACNQ6nz-tvKCJBKI9Ilc9c1FN201r-34q8Pu24Yi5BKZaduUh-SqeMSmX3CscKHpwEIjGUhsG9Nc4D55h4N9-NOU_bZheGsx8lRV60HsSe9AfZmtSrehbV_LSH6ehSCH8QUYR-VBKglD6WjExZv3o9dn1Lug2w6k3BCLTfeR1CQOITdT93wBBue_W9QptiAdWdGQPYDOY0G8SBN71ZAO0-qjKWdkmYdNaJ4w',
     payload: {
-      iss: 'https://www.iot-inspector.com/',
+      iss: 'https://www.onekey.com/',
       sub: 'analyst@localhost',
       aud: 'walkman',
       iat: 1613733778,
       exp: 1713733777,
       nonce: 'random nonce value',
-      'https://www.iot-inspector.com/tenant_id': '384fdbda-5039-4d77-b335-2a432449c328'
+      'https://www.onekey.com/tenant_id': '384fdbda-5039-4d77-b335-2a432449c328'
     }
   },
   userGroups: [ { name: 'User group 1', id: '1' } ],
