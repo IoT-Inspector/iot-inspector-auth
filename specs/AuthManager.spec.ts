@@ -2,6 +2,7 @@ import tk from 'timekeeper';
 import { mocked } from 'ts-jest/utils'
 import { nanoid } from 'nanoid';
 import { defaultIotAuthConfig, AuthManager, AuthConfig } from '../src';
+import { ID_TOKEN, TENANT_TOKEN } from './mocks/handlers';
 
 jest.mock('nanoid');
 const mockedNanoid = mocked(nanoid);
@@ -52,7 +53,7 @@ describe('AuthManager', () => {
               nonce: "xYnNNBwFHp9e9fG1iJpD3",
               sub: "admin@onekey.com",
             },
-            raw: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTQ3LCJleHAiOjE2MTUwMTYzNDcsIm5vbmNlIjoieFluTk5Cd0ZIcDllOWZHMWlKcEQzIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50cyI6W3sibmFtZSI6IlNoYXJpbmcgaXMgQ2FyaW5nIENvcnAuIiwiaWQiOiIxYTlhZTU4Ni1kNTNlLTQ4NmQtODcxNS02ODZmODgzYzE3YTYifSx7Im5hbWUiOiJUZW5hbnQgT25lIEdtYkgiLCJpZCI6IjNkMzEzMTI3LWU1ZGYtNDI4ZC04OWQ1LTRiZjAwOWM1ZTQ5NyJ9XSwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vaXNfc3VwZXJ1c2VyIjp0cnVlfQ.b-uuWpcfzmjNWcHo3UCQWGWlZqY202u_aHNnz4C6c8saDa0aSSQ2bajbX4wp2JkhZXW8xYae-oMzVxw0fheKBxKeqnqitjfCk5jANmPJpbIxFeDb0cp9mPGzzPj8uyysEDA2Zlpd_BYhU8WbdJhez-HYD8E9TdlTgVeR_LVCjFhcU3qyNVeLjWNeL5-iSUXKyyzpqL6Dq5DJsFCcW_Ap6rIBbqT9cl0h0rGHqhcATB7WymvpNFHSHKbSoCsb7nfSYPjpw5QeysDKffpPCLsUm59zIj4eUBfD51eq6xqEvFE_zOmD26BcftGYs5K9XSAyx3at0HUdOw4xH07Cd5n2NA",
+            raw: ID_TOKEN,
           },
       });
       tk.reset();
@@ -142,7 +143,7 @@ describe('AuthManager', () => {
     test('returns User when id token is valid', async () => {
       tk.freeze(1615006347000);
       const authManager = new AuthManager(config);
-      await authManager.setIdToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTQ3LCJleHAiOjE2MTUwMTYzNDcsIm5vbmNlIjoieFluTk5Cd0ZIcDllOWZHMWlKcEQzIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50cyI6W3sibmFtZSI6IlNoYXJpbmcgaXMgQ2FyaW5nIENvcnAuIiwiaWQiOiIxYTlhZTU4Ni1kNTNlLTQ4NmQtODcxNS02ODZmODgzYzE3YTYifSx7Im5hbWUiOiJUZW5hbnQgT25lIEdtYkgiLCJpZCI6IjNkMzEzMTI3LWU1ZGYtNDI4ZC04OWQ1LTRiZjAwOWM1ZTQ5NyJ9XSwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vaXNfc3VwZXJ1c2VyIjp0cnVlfQ.b-uuWpcfzmjNWcHo3UCQWGWlZqY202u_aHNnz4C6c8saDa0aSSQ2bajbX4wp2JkhZXW8xYae-oMzVxw0fheKBxKeqnqitjfCk5jANmPJpbIxFeDb0cp9mPGzzPj8uyysEDA2Zlpd_BYhU8WbdJhez-HYD8E9TdlTgVeR_LVCjFhcU3qyNVeLjWNeL5-iSUXKyyzpqL6Dq5DJsFCcW_Ap6rIBbqT9cl0h0rGHqhcATB7WymvpNFHSHKbSoCsb7nfSYPjpw5QeysDKffpPCLsUm59zIj4eUBfD51eq6xqEvFE_zOmD26BcftGYs5K9XSAyx3at0HUdOw4xH07Cd5n2NA');
+      await authManager.setIdToken(ID_TOKEN);
       expect(authManager.currentUser).toEqual({
         email: 'admin@onekey.com',
         tenants: [
@@ -175,7 +176,7 @@ describe('AuthManager', () => {
               nonce: "xYnNNBwFHp9e9fG1iJpD3",
               sub: "admin@onekey.com",
             },
-            raw: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTQ3LCJleHAiOjE2MTUwMTYzNDcsIm5vbmNlIjoieFluTk5Cd0ZIcDllOWZHMWlKcEQzIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50cyI6W3sibmFtZSI6IlNoYXJpbmcgaXMgQ2FyaW5nIENvcnAuIiwiaWQiOiIxYTlhZTU4Ni1kNTNlLTQ4NmQtODcxNS02ODZmODgzYzE3YTYifSx7Im5hbWUiOiJUZW5hbnQgT25lIEdtYkgiLCJpZCI6IjNkMzEzMTI3LWU1ZGYtNDI4ZC04OWQ1LTRiZjAwOWM1ZTQ5NyJ9XSwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vaXNfc3VwZXJ1c2VyIjp0cnVlfQ.b-uuWpcfzmjNWcHo3UCQWGWlZqY202u_aHNnz4C6c8saDa0aSSQ2bajbX4wp2JkhZXW8xYae-oMzVxw0fheKBxKeqnqitjfCk5jANmPJpbIxFeDb0cp9mPGzzPj8uyysEDA2Zlpd_BYhU8WbdJhez-HYD8E9TdlTgVeR_LVCjFhcU3qyNVeLjWNeL5-iSUXKyyzpqL6Dq5DJsFCcW_Ap6rIBbqT9cl0h0rGHqhcATB7WymvpNFHSHKbSoCsb7nfSYPjpw5QeysDKffpPCLsUm59zIj4eUBfD51eq6xqEvFE_zOmD26BcftGYs5K9XSAyx3at0HUdOw4xH07Cd5n2NA",
+            raw: ID_TOKEN,
           },
       });
       tk.reset();
@@ -186,7 +187,7 @@ describe('AuthManager', () => {
       tk.freeze(1615006347000);
       const authManager = new AuthManager(config);
       try {
-        await authManager.setIdToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTQ3LCJleHAiOjE2MTUwMTYzNDcsIm5vbmNlIjoieFluTk5Cd0ZIcDllOWZHMWlKcEQzIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50cyI6W3sibmFtZSI6IlNoYXJpbmcgaXMgQ2FyaW5nIENvcnAuIiwiaWQiOiIxYTlhZTU4Ni1kNTNlLTQ4NmQtODcxNS02ODZmODgzYzE3YTYifSx7Im5hbWUiOiJUZW5hbnQgT25lIEdtYkgiLCJpZCI6IjNkMzEzMTI3LWU1ZGYtNDI4ZC04OWQ1LTRiZjAwOWM1ZTQ5NyJ9XSwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vaXNfc3VwZXJ1c2VyIjp0cnVlfQ.b-uuWpcfzmjNWcHo3UCQWGWlZqY202u_aHNnz4C6c8saDa0aSSQ2bajbX4wp2JkhZXW8xYae-oMzVxw0fheKBxKeqnqitjfCk5jANmPJpbIxFeDb0cp9mPGzzPj8uyysEDA2Zlpd_BYhU8WbdJhez-HYD8E9TdlTgVeR_LVCjFhcU3qyNVeLjWNeL5-iSUXKyyzpqL6Dq5DJsFCcW_Ap6rIBbqT9cl0h0rGHqhcATB7WymvpNFHSHKbSoCsb7nfSYPjpw5QeysDKffpPCLsUm59zIj4eUBfD51eq6xqEvFE_zOmD26BcftGYs5K9XSAyx3at0HUdOw4xH07Cd5n2NArandom');
+        await authManager.setIdToken(`${ID_TOKEN}random`);
       } catch (e) {
         expect(e.message).toEqual('Invalid token signature');
       } finally {
@@ -199,7 +200,7 @@ describe('AuthManager', () => {
       tk.freeze(1616006347000);
       const authManager = new AuthManager(config);
       try {
-        await authManager.setIdToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTQ3LCJleHAiOjE2MTUwMTYzNDcsIm5vbmNlIjoieFluTk5Cd0ZIcDllOWZHMWlKcEQzIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50cyI6W3sibmFtZSI6IlNoYXJpbmcgaXMgQ2FyaW5nIENvcnAuIiwiaWQiOiIxYTlhZTU4Ni1kNTNlLTQ4NmQtODcxNS02ODZmODgzYzE3YTYifSx7Im5hbWUiOiJUZW5hbnQgT25lIEdtYkgiLCJpZCI6IjNkMzEzMTI3LWU1ZGYtNDI4ZC04OWQ1LTRiZjAwOWM1ZTQ5NyJ9XSwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vaXNfc3VwZXJ1c2VyIjp0cnVlfQ.b-uuWpcfzmjNWcHo3UCQWGWlZqY202u_aHNnz4C6c8saDa0aSSQ2bajbX4wp2JkhZXW8xYae-oMzVxw0fheKBxKeqnqitjfCk5jANmPJpbIxFeDb0cp9mPGzzPj8uyysEDA2Zlpd_BYhU8WbdJhez-HYD8E9TdlTgVeR_LVCjFhcU3qyNVeLjWNeL5-iSUXKyyzpqL6Dq5DJsFCcW_Ap6rIBbqT9cl0h0rGHqhcATB7WymvpNFHSHKbSoCsb7nfSYPjpw5QeysDKffpPCLsUm59zIj4eUBfD51eq6xqEvFE_zOmD26BcftGYs5K9XSAyx3at0HUdOw4xH07Cd5n2NA');
+        await authManager.setIdToken(ID_TOKEN);
       } catch (e) {
         expect(e.message).toEqual('Token expired');
       } finally {
@@ -212,7 +213,7 @@ describe('AuthManager', () => {
       tk.freeze(1615006347000);
       const authManager = new AuthManager({...config, issuer: 'configured issuer'});
       try {
-        await authManager.setIdToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTQ3LCJleHAiOjE2MTUwMTYzNDcsIm5vbmNlIjoieFluTk5Cd0ZIcDllOWZHMWlKcEQzIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50cyI6W3sibmFtZSI6IlNoYXJpbmcgaXMgQ2FyaW5nIENvcnAuIiwiaWQiOiIxYTlhZTU4Ni1kNTNlLTQ4NmQtODcxNS02ODZmODgzYzE3YTYifSx7Im5hbWUiOiJUZW5hbnQgT25lIEdtYkgiLCJpZCI6IjNkMzEzMTI3LWU1ZGYtNDI4ZC04OWQ1LTRiZjAwOWM1ZTQ5NyJ9XSwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vaXNfc3VwZXJ1c2VyIjp0cnVlfQ.b-uuWpcfzmjNWcHo3UCQWGWlZqY202u_aHNnz4C6c8saDa0aSSQ2bajbX4wp2JkhZXW8xYae-oMzVxw0fheKBxKeqnqitjfCk5jANmPJpbIxFeDb0cp9mPGzzPj8uyysEDA2Zlpd_BYhU8WbdJhez-HYD8E9TdlTgVeR_LVCjFhcU3qyNVeLjWNeL5-iSUXKyyzpqL6Dq5DJsFCcW_Ap6rIBbqT9cl0h0rGHqhcATB7WymvpNFHSHKbSoCsb7nfSYPjpw5QeysDKffpPCLsUm59zIj4eUBfD51eq6xqEvFE_zOmD26BcftGYs5K9XSAyx3at0HUdOw4xH07Cd5n2NA');
+        await authManager.setIdToken(ID_TOKEN);
       } catch (e) {
         expect(e.message).toEqual('Issuer must be configured issuer, got https://www.onekey.com/');
       } finally {
@@ -225,7 +226,7 @@ describe('AuthManager', () => {
       tk.freeze(1615006347000);
       const authManager = new AuthManager({...config, audience: 'Frontend' });
       try {
-        await authManager.setIdToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTQ3LCJleHAiOjE2MTUwMTYzNDcsIm5vbmNlIjoieFluTk5Cd0ZIcDllOWZHMWlKcEQzIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50cyI6W3sibmFtZSI6IlNoYXJpbmcgaXMgQ2FyaW5nIENvcnAuIiwiaWQiOiIxYTlhZTU4Ni1kNTNlLTQ4NmQtODcxNS02ODZmODgzYzE3YTYifSx7Im5hbWUiOiJUZW5hbnQgT25lIEdtYkgiLCJpZCI6IjNkMzEzMTI3LWU1ZGYtNDI4ZC04OWQ1LTRiZjAwOWM1ZTQ5NyJ9XSwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vaXNfc3VwZXJ1c2VyIjp0cnVlfQ.b-uuWpcfzmjNWcHo3UCQWGWlZqY202u_aHNnz4C6c8saDa0aSSQ2bajbX4wp2JkhZXW8xYae-oMzVxw0fheKBxKeqnqitjfCk5jANmPJpbIxFeDb0cp9mPGzzPj8uyysEDA2Zlpd_BYhU8WbdJhez-HYD8E9TdlTgVeR_LVCjFhcU3qyNVeLjWNeL5-iSUXKyyzpqL6Dq5DJsFCcW_Ap6rIBbqT9cl0h0rGHqhcATB7WymvpNFHSHKbSoCsb7nfSYPjpw5QeysDKffpPCLsUm59zIj4eUBfD51eq6xqEvFE_zOmD26BcftGYs5K9XSAyx3at0HUdOw4xH07Cd5n2NA');
+        await authManager.setIdToken(ID_TOKEN);
       } catch (e) {
         expect(e.message).toEqual('Audience must be Frontend, got OnekeyFrontend');
       } finally {
@@ -247,7 +248,7 @@ describe('AuthManager', () => {
           name: 'Sharing is Caring Corp.',
         },
         token: {
-          raw: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3d3dy5pb3QtaW5zcGVjdG9yLmNvbS8iLCJzdWIiOiJhZG1pbkBpb3QtaW5zcGVjdG9yLmNvbSIsImF1ZCI6IklvdEZyb250ZW5kIiwiaWF0IjoxNjE0OTI5OTU1LCJleHAiOjE2MTQ5NjU5NTUsIm5vbmNlIjoiOWR2dXJVNWZ2eGNMRWR5Ui16aGtwIiwiaHR0cHM6Ly93d3cuaW90LWluc3BlY3Rvci5jb20vdGVuYW50X2lkIjoiMWE5YWU1ODYtZDUzZS00ODZkLTg3MTUtNjg2Zjg4M2MxN2E2In0.dCM8Vbb_99dPbFWLjrzAy4OXA3ZR11-Sg7HPNgQ3sEZtBXQDFR5ap4wHzPKunU5ovBZkB0T_4CoKbJKCN7BHzCEMDxpBdGZ0Ku8iqN5B6IpgJ2cHHabPztuwaDEmz3xZzZvoV4qdUERB9wv14o8MjanxJTTZ59GeyfOAks9HuToJQlyGtzoB5CxMIWTOMEMGNyvOUyhAew1EXQYclwsGcCsZFufiiJRaSeGOU_BMMmvoVVT9weLQXC0L-jf4OVaJVaS9n6YyNy_cdkG6jOqqUJBIhAgOcEaX-CI5TrnnspAuQmXxZxktBRpLFKRw2WhxiZIvmyMPS4JelDkIrstZ3Q',
+          raw: TENANT_TOKEN,
           payload: {
             iss: 'https://www.onekey.com/',
             sub: 'admin@onekey.com',
